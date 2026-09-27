@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEURAL//RACE</title>
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Catch errors before React mounts and display them visibly
+      window.addEventListener('error', function(e) {
+        var el = document.getElementById('__err');
+        if (!el) {
+          el = document.createElement('div');
+          el.id = '__err';
+          el.style.cssText = 'position:fixed;inset:0;background:#111;color:#f66;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:monospace;padding:40px;z-index:99999;gap:12px;';
+          document.body.appendChild(el);
+        }
+        el.innerHTML = '<div style="font-size:20px;font-weight:bold">JS Error</div>'
+          + '<pre style="background:#200;border:1px solid #f66;padding:16px;border-radius:6px;max-width:800px;overflow:auto;max-height:60vh;font-size:12px;white-space:pre-wrap">'
+          + (e.message || '') + '\n\nFile: ' + (e.filename || '') + ':' + e.lineno
+          + '\n\n' + (e.error && e.error.stack ? e.error.stack : '')
+          + '</pre>';
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var msg = e.reason ? (e.reason.stack || e.reason.toString()) : String(e);
+        var el = document.getElementById('__err') || document.createElement('div');
+        el.id = '__err';
+        el.style.cssText = 'position:fixed;inset:0;background:#111;color:#f66;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:monospace;padding:40px;z-index:99999;gap:12px;';
+        el.innerHTML = '<div style="font-size:20px;font-weight:bold">Unhandled Promise Error</div>'
+          + '<pre style="background:#200;border:1px solid #f66;padding:16px;border-radius:6px;max-width:800px;overflow:auto;max-height:60vh;font-size:12px;white-space:pre-wrap">' + msg + '</pre>';
+        if (!document.getElementById('__err')) document.body.appendChild(el);
+      });
+    </script>
+  </body>
+</html>
